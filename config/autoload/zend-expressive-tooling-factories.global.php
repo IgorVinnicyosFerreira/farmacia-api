@@ -12,9 +12,14 @@ declare(strict_types=1);
 return [
     'dependencies' => [
         'factories' => [
-            Auth\teste\testeHandler::class => Auth\teste\testeHandlerFactory::class,
-            Cadastro\Cliente\InserirHandler::class => Cadastro\Cliente\InserirHandlerFactory::class,
-            Teste\HelloWorld\IndexHandler::class => Teste\HelloWorld\IndexHandlerFactory::class,
+            Cadastro\Handler\Cliente\DeletarHandler::class => Cadastro\Handler\Cliente\DeletarHandlerFactory::class,
+            Cadastro\Handler\Cliente\EditarHandler::class => Cadastro\Handler\Cliente\EditarHandlerFactory::class,
+            Cadastro\Handler\Cliente\InserirHandler::class => Cadastro\Handler\Cliente\InserirHandlerFactory::class,
+            Cadastro\Handler\Cliente\ListarHandler::class => Cadastro\Handler\Cliente\ListarHandlerFactory::class,
+            Cadastro\Handler\Usuario\DeletarHandler::class => Cadastro\Handler\Usuario\DeletarHandlerFactory::class,
+            Cadastro\Handler\Usuario\EditarHandler::class => Cadastro\Handler\Usuario\EditarHandlerFactory::class,
+            Cadastro\Handler\Usuario\InserirHandler::class => Cadastro\Handler\Usuario\InserirHandlerFactory::class,
+            Cadastro\Handler\Usuario\ListarHandler::class => Cadastro\Handler\Usuario\ListarHandlerFactory::class,
         ],
     ],
 ];

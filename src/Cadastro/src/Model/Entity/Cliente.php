@@ -1,13 +1,19 @@
 <?php
 
-namespace Cadastro\Entity;
+namespace Cadastro\Model\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use JsonSerializable;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\StringLength;
 
 /**
  * @ORM\Entity(repositoryClass="Cadastro\Repository\ClienteRepository")
  * @ORM\Table(name="cliente")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Cliente implements JsonSerializable
 {
@@ -33,15 +39,21 @@ class Cliente implements JsonSerializable
 
     /**
      * @ORM\Column(name="dataNascimento", type="date", nullable=false);
+     * @var DateTime
      */
     private $dataNascimento;
 
     /**
      * mapeamento bidirecional com entidade Compra
      * um cliente pode ter feito N compras
-     * @ORM\OneToMany(targetEntity="App\Entity\Compra", mappedBy="cliente")
+     * @ORM\OneToMany(targetEntity="App\Model\Entity\Compra", mappedBy="cliente")
      */
     private $compras;
+
+    public function __construct()
+    {
+        $this->compras = new ArrayCollection();
+    }
 
     public function jsonSerialize()
     {
@@ -52,6 +64,33 @@ class Cliente implements JsonSerializable
             'dataNascimento' => $this->getDataNascimento(),
             'compras'        => $this->getCompras()
         ];
+    }
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function validate()
+    {
+        if (!$this->nome)
+            throw new Exception("Nome é uma informação obrigatória");
+
+        if (!(new NotEmpty())->isValid($this->nome))
+            throw new Exception("Nome não pode ser vazio");
+
+        if (!(new StringLength(["max" => 50]))->isValid($this->nome))
+            throw new Exception("Nome excede o limite de caracteres");
+
+        if (!$this->sobrenome)
+            throw new Exception("Sobrenome é uma informação obrigatória");
+
+        if (!(new NotEmpty())->isValid($this->sobrenome))
+            throw new Exception("Sobrenome não pode ser vazio");
+
+        if (!(new StringLength(["max" => 50]))->isValid($this->sobrenome))
+            throw new Exception("Sobrenome excede o limite de caracteres");
+
+        if (!$this->dataNascimento)
+            throw new Exception("Data de nascimento é uma informação obrigatória");
     }
 
     /**
@@ -128,6 +167,7 @@ class Cliente implements JsonSerializable
 
     /**
      * Get the value of dataNascimento
+     * @return DateTime
      */
     public function getDataNascimento()
     {
@@ -139,9 +179,9 @@ class Cliente implements JsonSerializable
      *
      * @return  self
      */
-    public function setDataNascimento($dataNascimento)
+    public function setDataNascimento(string $dataNascimento)
     {
-        $this->dataNascimento = $dataNascimento;
+        $this->dataNascimento = new DateTime($dataNascimento);
 
         return $this;
     }
@@ -151,7 +191,7 @@ class Cliente implements JsonSerializable
      */
     public function getCompras()
     {
-        return $this->compras;
+        return $this->compras->toArray();
     }
 
     /**

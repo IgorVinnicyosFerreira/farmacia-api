@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity;
+namespace App\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use Cadastro\Entity\{Usuario, Cliente, Remedio};
+use Cadastro\Model\Entity\{Usuario, Cliente, Remedio};
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompraRepository")
@@ -21,21 +21,21 @@ class Compra implements JsonSerializable
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cadastro\Entity\Usuario", inversedBy="vendas")
+     * @ORM\ManyToOne(targetEntity="Cadastro\Model\Entity\Usuario", inversedBy="vendas")
      * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
      * @var Usuario
      */
     private $usuario;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cadastro\Entity\Cliente", inversedBy="compras")
+     * @ORM\ManyToOne(targetEntity="Cadastro\Model\Entity\Cliente", inversedBy="compras")
      * @ORM\JoinColumn(name="id_cliente", referencedColumnName="id")
      * @var Cliente
      */
     private $cliente;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cadastro\Entity\Remedio")
+     * @ORM\ManyToOne(targetEntity="Cadastro\Model\Entity\Remedio")
      * @ORM\JoinColumn(name="id_remedio", referencedColumnName="id")
      * @var Remedio
      */

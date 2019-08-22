@@ -19,7 +19,7 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
-            'doctrine.entity_manager.orm_default' => \ContainerInteropDoctrine\EntityManagerFactory::class,
+            \Doctrine\ORM\EntityManager::class => \ContainerInteropDoctrine\EntityManagerFactory::class,
         ],
     ],
 ];

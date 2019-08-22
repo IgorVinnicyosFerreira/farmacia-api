@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cadastro;
 
+
 /**
  * The configuration provider for the Cadastro module
  *
@@ -56,13 +57,13 @@ class ConfigProvider
                 'orm_default' => [
                     'class' => \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain::class,
                     'drivers' => [
-                        'Cadastro\Entity' => 'cadastro_entity',
+                        'Cadastro\Model\Entity' => 'cadastro_entity',
                     ],
                 ],
                 'cadastro_entity' => [
                     'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                     'cache' => 'array',
-                    'paths' => __DIR__ . '/Entity',
+                    'paths' => __DIR__ . '/Model/Entity',
                 ],
             ],
         ];

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Auth\teste\testeHandler;
+
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
 use Zend\Expressive\MiddlewareFactory;
@@ -34,5 +35,14 @@ use Zend\Expressive\MiddlewareFactory;
  * );
  */
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    $app->get('/', testeHandler::class, 'home');
+    //$app->get('/', testeHandler::class, 'home');
+    $app->post('/cliente/inserir', Cadastro\Handler\Cliente\InserirHandler::class, 'cliente.inserir');
+    $app->put('/cliente/editar', Cadastro\Handler\Cliente\EditarHandler::class, 'cliente.editar');
+    $app->get('/cliente', Cadastro\Handler\Cliente\ListarHandler::class, 'cliente');
+    $app->delete('/cliente/excluir', Cadastro\Handler\Cliente\DeletarHandler::class, 'cliente.deletar');
+
+    $app->post('/usuario/inserir', Cadastro\Handler\Usuario\InserirHandler::class, 'usuario.inserir');
+    $app->put('/usuario/editar', Cadastro\Handler\Usuario\EditarHandler::class, 'usuario.editar');
+    $app->get('/usuario', Cadastro\Handler\Usuario\ListarHandler::class, 'usuario');
+    $app->delete('/usuario/excluir', Cadastro\Handler\Usuario\DeletarHandler::class, 'usuario.deletar');
 };

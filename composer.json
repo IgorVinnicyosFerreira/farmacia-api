@@ -41,6 +41,7 @@
     "dasprid/container-interop-doctrine": "^1.1",
     "zendframework/zend-component-installer": "^2.1.1",
     "zendframework/zend-config-aggregator": "^1.0",
+    "zendframework/zend-crypt": "^3.3",
     "zendframework/zend-diactoros": "^1.7.1 || ^2.0",
     "zendframework/zend-expressive": "^3.0.1",
     "zendframework/zend-expressive-helpers": "^5.0",
@@ -90,6 +91,7 @@
     "action": "composer expressive action:create",
     "module-delete": "composer expressive module:deregister",
     "validate-schema": "vendor\\bin\\doctrine orm:validate-schema",
-    "create-schema": "vendor\\bin\\doctrine orm:schema-tool:create"
+    "create-schema": "vendor\\bin\\doctrine orm:schema-tool:create",
+    "generate-repositories": "vendor\\bin\\doctrine orm:generate-repositories"
   }
 }

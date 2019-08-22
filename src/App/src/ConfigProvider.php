@@ -53,13 +53,13 @@ class ConfigProvider
                 'orm_default' => [
                     'class' => \Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain::class,
                     'drivers' => [
-                        'App\Entity' => 'app_entity',
+                        'App\Model\Entity' => 'app_entity',
                     ],
                 ],
                 'app_entity' => [
                     'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
                     'cache' => 'array',
-                    'paths' => __DIR__ . '/Entity',
+                    'paths' => __DIR__ . '/Model/Entity',
                 ],
             ],
         ];

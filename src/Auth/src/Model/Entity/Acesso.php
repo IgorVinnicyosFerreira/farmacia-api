@@ -1,10 +1,11 @@
 <?php
 
-namespace Auth\Entity;
+namespace Auth\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
-use Cadastro\Entity\Usuario;
+use Cadastro\Model\Entity\Usuario;
+use Zend\Crypt\Password\Bcrypt;
 
 /**
  * @ORM\Entity(repositoryClass="Auth\Repository\AcessoRepository")
@@ -34,7 +35,7 @@ class Acesso implements JsonSerializable
     private $senha;
 
     /**
-     * @ORM\OneToOne(targetEntity="Cadastro\Entity\Usuario")
+     * @ORM\OneToOne(targetEntity="Cadastro\Model\Entity\Usuario")
      * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id", nullable=false)
      * @var Usuario
      */
@@ -116,7 +117,8 @@ class Acesso implements JsonSerializable
      */
     public function setSenha(string $senha)
     {
-        $this->senha = $senha;
+        $bcrypt = new Bcrypt();
+        $this->senha = $bcrypt->create($senha);
 
         return $this;
     }

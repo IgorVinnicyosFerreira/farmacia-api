@@ -1,9 +1,12 @@
 <?php
 
-namespace Cadastro\Entity;
+namespace Cadastro\Model\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use JsonSerializable;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\StringLength;
 
 /**
  * @ORM\Entity(repositoryClass="Cadastro\Repository\RemedioRepository")
@@ -26,7 +29,7 @@ class Remedio implements JsonSerializable
     private $nome;
 
     /**
-     * @ORM\Column(name="descricao", type="text", nullable=false)
+     * @ORM\Column(name="descricao", type="text", nullable=false, length=500)
      * @var string
      */
     private $descricao;
@@ -46,6 +49,35 @@ class Remedio implements JsonSerializable
             'descricao' =>  $this->getDescricao(),
             'preco'     =>  $this->getPreco()
         ];
+    }
+
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function validate()
+    {
+        if (!$this->nome)
+            throw new Exception("Nome é uma informação obrigatoria");
+
+        if (!$this->descricao)
+            throw new Exception("Descrição é uma informação obrigatoria");
+
+        if (!$this->preco)
+            throw new Exception("Preço é uma informação obrigatoria");
+
+        if (!(new NotEmpty())->isValid($this->nome))
+            throw new Exception("Nome não pode ser vazio");
+
+        if (!(new NotEmpty())->isValid($this->descricao))
+            throw new Exception("Nome não pode ser vazio");
+
+        if (!(new StringLength(['max' => 100]))->isValid($this->nome))
+            throw new Exception("Nome excede os limites de caracteres");
+
+        if (!(new StringLength(['max' => 500]))->isValid($this->descricao))
+            throw new Exception("Nome excede os limites de caracteres");
     }
 
     /**

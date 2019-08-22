@@ -1,14 +1,21 @@
 <?php
 
-namespace Cadastro\Entity;
+namespace Cadastro\Model\Entity;
 
+use Auth\Model\Entity\Acesso;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use JsonSerializable;
+use Zend\Validator\EmailAddress;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\StringLength;
 
 /**
  * @ORM\Entity(repositoryClass="Cadastro\Repository\UsuarioRepository")
  * @ORM\Table(name="usuario")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Usuario implements JsonSerializable
 {
@@ -46,9 +53,19 @@ class Usuario implements JsonSerializable
     /**
      * mapeamento bidirecional com entidade Compra
      * um usuário pode ter feito N vendas
-     * @ORM\OneToMany(targetEntity="App\Entity\Compra", mappedBy="usuario")
+     * @ORM\OneToMany(targetEntity="App\Model\Entity\Compra", mappedBy="usuario")
      */
     private $vendas;
+
+    /**
+     * One Cart has One Customer.
+     * @ORM\OneToOne(
+     * targetEntity="Auth\Model\Entity\Acesso", 
+     * mappedBy="usuario",
+     * cascade={"persist", "remove"}
+     * )
+     */
+    private $acesso;
 
     public function jsonSerialize()
     {
@@ -58,8 +75,50 @@ class Usuario implements JsonSerializable
             'sobrenome'      => $this->getSobrenome(),
             'email'          => $this->getEmail(),
             'dataNascimento' => $this->getDataNascimento(),
-            'vendas'         => $this->getVendas()
+            'vendas'         => $this->getVendas(),
         ];
+    }
+
+    public function __construct()
+    {
+        $this->vendas = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function validate()
+    {
+        if (!$this->nome)
+            throw new Exception("Nome é uma informação obrigatória");
+
+        if (!$this->sobrenome)
+            throw new Exception("Sobrenome é uma informação obrigatória");
+
+        if (!$this->dataNascimento)
+            throw new Exception("Data nascimento é uma informação obrigatória");
+
+        if (!$this->email)
+            throw new Exception("Email é uma informação obrigatória");
+
+        if (!(new EmailAddress())->isValid($this->email))
+            throw new Exception("Email inválido");
+
+        if (!(new NotEmpty())->isValid($this->nome))
+            throw new Exception("Nome não pode ser vazio");
+
+        if (!(new NotEmpty())->isValid($this->sobrenome))
+            throw new Exception("Sobrenome não pode ser vazio");
+
+        if (!(new NotEmpty())->isValid($this->email))
+            throw new Exception("Sobrenome não pode ser vazio");
+
+        if (!(new StringLength(["max" => 50]))->isValid($this->nome))
+            throw new Exception("Nome excede o limite de caracteres");
+
+        if (!(new StringLength(["max" => 50]))->isValid($this->sobrenome))
+            throw new Exception("Sobrenome excede o limite de caracteres");
     }
 
     /**
@@ -149,7 +208,7 @@ class Usuario implements JsonSerializable
      */
     public function setDataNascimento($dataNascimento)
     {
-        $this->dataNascimento = $dataNascimento;
+        $this->dataNascimento = new DateTime($dataNascimento);
 
         return $this;
     }
@@ -190,6 +249,28 @@ class Usuario implements JsonSerializable
     public function setVendas($vendas)
     {
         $this->vendas = $vendas;
+
+        return $this;
+    }
+
+    /**
+     * Get one Cart has One Customer.
+     * @return Acesso
+     */
+    public function getAcesso()
+    {
+        return $this->acesso;
+    }
+
+    /**
+     * Set one Cart has One Customer.
+     *
+     * @return  self
+     */
+    public function setAcesso(Acesso $acesso)
+    {
+        $acesso->setUsuario($this);
+        $this->acesso = $acesso;
 
         return $this;
     }
