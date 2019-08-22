@@ -25,7 +25,6 @@ class DeletarHandler implements RequestHandlerInterface
         $params = $request->getQueryParams();
 
         try {
-
             $this->clienteRepository->delete((int) $params['id']);
 
             return new JsonResponse([]);

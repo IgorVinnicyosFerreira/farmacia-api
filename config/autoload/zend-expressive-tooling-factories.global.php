@@ -16,6 +16,7 @@ return [
             Cadastro\Handler\Cliente\EditarHandler::class => Cadastro\Handler\Cliente\EditarHandlerFactory::class,
             Cadastro\Handler\Cliente\InserirHandler::class => Cadastro\Handler\Cliente\InserirHandlerFactory::class,
             Cadastro\Handler\Cliente\ListarHandler::class => Cadastro\Handler\Cliente\ListarHandlerFactory::class,
+            Cadastro\Handler\Remedio\InseriHandler::class => Cadastro\Handler\Remedio\InseriHandlerFactory::class,
             Cadastro\Handler\Usuario\DeletarHandler::class => Cadastro\Handler\Usuario\DeletarHandlerFactory::class,
             Cadastro\Handler\Usuario\EditarHandler::class => Cadastro\Handler\Usuario\EditarHandlerFactory::class,
             Cadastro\Handler\Usuario\InserirHandler::class => Cadastro\Handler\Usuario\InserirHandlerFactory::class,
