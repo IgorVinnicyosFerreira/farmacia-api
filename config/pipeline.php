@@ -15,6 +15,7 @@ use Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware;
 use Zend\Expressive\Router\Middleware\RouteMiddleware;
 use Zend\Stratigility\Middleware\ErrorHandler;
 use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+use Auth\Middleware\AuthenticationMiddleware;
 
 /**
  * Setup middleware pipeline:
@@ -66,7 +67,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // - route-based authentication
     // - route-based validation
     // - etc.
-
+    $app->pipe(AuthenticationMiddleware::class);
     // Register the dispatch middleware in the middleware pipeline
     $app->pipe(DispatchMiddleware::class);
 

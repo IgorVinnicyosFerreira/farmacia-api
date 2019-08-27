@@ -67,6 +67,9 @@ class Remedio implements JsonSerializable
         if (!$this->preco)
             throw new Exception("Preço é uma informação obrigatoria");
 
+        if (!is_float($preco))
+            throw new Exception("Preço está em um formato inválido");
+
         if (!(new NotEmpty())->isValid($this->nome))
             throw new Exception("Nome não pode ser vazio");
 

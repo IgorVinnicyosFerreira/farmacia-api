@@ -45,4 +45,16 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->put('/usuario/editar', Cadastro\Handler\Usuario\EditarHandler::class, 'usuario.editar');
     $app->get('/usuario', Cadastro\Handler\Usuario\ListarHandler::class, 'usuario');
     $app->delete('/usuario/excluir', Cadastro\Handler\Usuario\DeletarHandler::class, 'usuario.deletar');
+
+
+    $app->post('/remedio/inserir', Cadastro\Handler\Remedio\InseriHandler::class, 'remedio.inserir');
+    $app->put('/remedio/editar', Cadastro\Handler\Remedio\AtualizarHandler::class, 'remedio.editar');
+    $app->delete('/remedio/excluir', Cadastro\Handler\Remedio\DeletarHandler::class, 'remedio.deletar');
+    $app->get('/remedio', Cadastro\Handler\Remedio\ListarHandler::class, 'remedio');
+
+    $app->post('/compra/inserir', App\Handler\Compra\InserirHandler::class, 'compra.inserir');
+    $app->get('/compra', App\Handler\Compra\ListarHandler::class, 'compra');
+    $app->get('/compra/compras-por-cliente', App\Handler\Compra\ComprasPorClienteHandler::class, 'compras.por.cliente');
+
+    $app->post("/login", Auth\Handler\Acesso\LoginHandler::class, 'login');
 };

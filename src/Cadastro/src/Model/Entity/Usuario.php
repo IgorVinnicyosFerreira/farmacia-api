@@ -75,7 +75,6 @@ class Usuario implements JsonSerializable
             'sobrenome'      => $this->getSobrenome(),
             'email'          => $this->getEmail(),
             'dataNascimento' => $this->getDataNascimento(),
-            'vendas'         => $this->getVendas(),
         ];
     }
 

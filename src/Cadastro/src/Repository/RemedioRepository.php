@@ -18,7 +18,7 @@ class RemedioRepository extends EntityRepository
         }
 
         $this->_em->merge($remedio);
-        $this->flush();
+        $this->_em->flush();
     }
 
     public function delete(int $id)
@@ -27,7 +27,7 @@ class RemedioRepository extends EntityRepository
 
         if (!$remedio) throw new Exception("Não existe um remédio cadastrado para este id");
 
-        $this->remove($id);
-        $this->flush();
+        $this->_em->remove($remedio);
+        $this->_em->flush();
     }
 }

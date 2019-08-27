@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Auth;
 
+use Auth\JWT\JWT;
+use Auth\JWT\JWTFactory;
+use Auth\Middleware\AuthenticationMiddleware;
+use Auth\Middleware\AuthenticationMiddlewareFactory;
+
 /**
  * The configuration provider for the Auth module
  *
@@ -33,7 +38,10 @@ class ConfigProvider
     {
         return [
             'invokables' => [],
-            'factories'  => [],
+            'factories'  => [
+                JWT::class => JWTFactory::class,
+                AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class
+            ],
         ];
     }
 

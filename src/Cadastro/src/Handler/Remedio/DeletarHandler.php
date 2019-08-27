@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Cadastro\Handler\Remedio;
 
-use Cadastro\Model\Entity\Remedio;
 use Cadastro\Repository\RemedioRepository;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -12,8 +11,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class InseriHandler implements RequestHandlerInterface
+class DeletarHandler implements RequestHandlerInterface
 {
+
     private $remedioRepository;
 
     public function __construct(RemedioRepository $remedioRepository)
@@ -23,19 +23,14 @@ class InseriHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $body = $request->getParsedBody();
+        $params = $request->getQueryParams();
 
         try {
-            $remedio = new Remedio();
+            $this->remedioRepository->delete((int) $params['id']);
 
-            $remedio->setNome($body['nome'])->setDescricao($body['descricao'])
-                ->setPreco((float) $body['preco']);
-
-            $this->remedioRepository->save($remedio);
-
-            return new JsonResponse($remedio);
+            return new JsonResponse([]);
         } catch (Exception $error) {
-            return new JsonResponse(["error" => $error->getMessage()]);
+            return new JsonResponse(["error" => $error->getMessage()], 400);
         }
     }
 }

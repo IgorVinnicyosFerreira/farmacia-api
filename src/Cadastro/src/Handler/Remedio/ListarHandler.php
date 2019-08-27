@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Cadastro\Handler\Remedio;
 
-use Cadastro\Model\Entity\Remedio;
 use Cadastro\Repository\RemedioRepository;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -12,8 +11,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class InseriHandler implements RequestHandlerInterface
+class ListarHandler implements RequestHandlerInterface
 {
+
     private $remedioRepository;
 
     public function __construct(RemedioRepository $remedioRepository)
@@ -23,17 +23,20 @@ class InseriHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $body = $request->getParsedBody();
+        $params = $request->getQueryParams();
 
         try {
-            $remedio = new Remedio();
+            if (isset($params['id'])) {
+                $remedio = $this->remedioRepository->find($params['id']);
 
-            $remedio->setNome($body['nome'])->setDescricao($body['descricao'])
-                ->setPreco((float) $body['preco']);
+                if (!$remedio) throw new Exception("Não existe um remédio para este id");
 
-            $this->remedioRepository->save($remedio);
+                return new JsonResponse($remedio);
+            }
 
-            return new JsonResponse($remedio);
+            $listaRemedio = $this->remedioRepository->findAll();
+
+            return new JsonResponse($listaRemedio);
         } catch (Exception $error) {
             return new JsonResponse(["error" => $error->getMessage()]);
         }

@@ -34,4 +34,14 @@ class ClienteRepository extends EntityRepository
         $this->_em->remove($cliente);
         $this->_em->flush();
     }
+
+    public function comprasPorCliente(int $idCliente)
+    {
+
+        $cliente = $this->find($idCliente);
+
+        if (!$cliente) throw new Exception("Não existe um cliente com este id");
+
+        return $cliente->getCompras();
+    }
 }

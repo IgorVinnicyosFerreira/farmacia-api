@@ -45,9 +45,20 @@ class Compra implements JsonSerializable
     {
         return [
             "id"        =>  $this->getId(),
-            "usuario"   =>  $this->getUsuario(),
-            "cliente"   =>  $this->getCliente(),
-            "remedio"   =>  $this->getRemedio()
+            "usuario"   =>  [
+                "nome" => $this->getUsuario()->getNome(),
+                "sobrenome" => $this->getUsuario()->getSobrenome()
+            ],
+            "cliente"   => [
+                "nome" => $this->getCliente()->getNome(),
+                "sobrenome" => $this->getCliente()->getSobrenome(),
+                "dataNascimento" => $this->getCliente()->getDataNascimento()
+            ],
+            "remedio"   =>  [
+                "nome" => $this->getRemedio()->getNome(),
+                "descricao" => $this->getRemedio()->getDescricao(),
+                "preco" => $this->getRemedio()->getPreco()
+            ]
         ];
     }
 

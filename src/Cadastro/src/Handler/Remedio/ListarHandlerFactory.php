@@ -8,14 +8,12 @@ use Cadastro\Model\Entity\Remedio;
 use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerInterface;
 
-class InseriHandlerFactory
+class ListarHandlerFactory
 {
-    public function __invoke(ContainerInterface $container): InseriHandler
+    public function __invoke(ContainerInterface $container): ListarHandler
     {
-
         $entityManager = $container->get(EntityManager::class);
         $remedioRepository = $entityManager->getRepository(Remedio::class);
-
-        return new InseriHandler($remedioRepository);
+        return new ListarHandler($remedioRepository);
     }
 }

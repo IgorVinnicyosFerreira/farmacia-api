@@ -12,8 +12,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class InseriHandler implements RequestHandlerInterface
+class AtualizarHandler implements RequestHandlerInterface
 {
+
     private $remedioRepository;
 
     public function __construct(RemedioRepository $remedioRepository)
@@ -29,13 +30,13 @@ class InseriHandler implements RequestHandlerInterface
             $remedio = new Remedio();
 
             $remedio->setNome($body['nome'])->setDescricao($body['descricao'])
-                ->setPreco((float) $body['preco']);
+                ->setPreco((float) $body['preco'])->setId($body['id']);
 
             $this->remedioRepository->save($remedio);
 
             return new JsonResponse($remedio);
         } catch (Exception $error) {
-            return new JsonResponse(["error" => $error->getMessage()]);
+            return new JsonResponse(["error" => $error->getMessage()], 400);
         }
     }
 }

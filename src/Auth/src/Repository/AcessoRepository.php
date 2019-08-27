@@ -3,22 +3,25 @@
 namespace Auth\Repository;
 
 use Auth\Model\Entity\Acesso;
+use Cadastro\Model\Entity\Usuario;
 use Doctrine\ORM\EntityRepository;
 use Exception;
+use Zend\Crypt\Password\Bcrypt;
 
 class AcessoRepository extends EntityRepository
 {
 
-    public function save(Acesso $acesso)
+    public function login(string $login, string $senha): Usuario
     {
-        if ($acesso->getId()) {
+        $acesso =  $this->findOneBy(["login" => $login]);
 
-            $resultado = $this->find($acesso->getId());
+        if (!$acesso) throw new Exception("Login inválido");
 
-            if (!$resultado) throw new Exception("Não existe um acesso para este id");
-        }
+        $bcrypt = new Bcrypt();
 
-        $this->_em->persist($acesso);
-        $this->flush();
+        if (!$bcrypt->verify($senha, $acesso->getSenha()))
+            throw new Exception("Senha inválida");
+
+        return $acesso->getUsuario();
     }
 }
