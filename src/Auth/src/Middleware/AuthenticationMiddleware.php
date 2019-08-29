@@ -30,15 +30,12 @@ class AuthenticationMiddleware implements MiddlewareInterface
         try {
             $routeName = $this->urlHelper->getRouteResult()->getMatchedRouteName();
 
-            if (in_array($routeName, $this->authConfig['ignoredRoutes']))
-                return $handler->handle($request);
+            if (isset($this->authConfig['ignoredRoutes'])) {
+                if (in_array($routeName, $this->authConfig['ignoredRoutes']))
+                    return $handler->handle($request);
+            }
 
-            $authorizationHeader = $request->getHeader('authorization');
-
-            if (!$authorizationHeader)
-                return new JsonResponse(["erro" => "Authorization header não informado"], 400);
-
-            $token = str_replace("Bearer ", "", $authorizationHeader[0]);
+            $token = $this->getToken($request);
 
             if (!$this->JWT->tokenIsValid($token))
                 return new JsonResponse(["error" => "Token inválido"], 401);
@@ -53,9 +50,23 @@ class AuthenticationMiddleware implements MiddlewareInterface
                 $response = $response->withHeader("autorizathion", "Bearer {$newToken}");
             }
 
+
             return $response;
         } catch (Exception $error) {
             return new JsonResponse(["error" => "Erro ao autenticar usuário"], 401);
         }
+    }
+
+
+    private function getToken(ServerRequestInterface $request): string
+    {
+        $authorizationHeader = $request->getHeader('authorization');
+
+        if (!$authorizationHeader)
+            throw new Exception("Authorization header não informado");
+
+        $token = str_replace("Bearer ", "", $authorizationHeader[0]);
+
+        return $token ?? "";
     }
 }

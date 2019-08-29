@@ -46,7 +46,7 @@ class JWT
         if ($this->iss)
             $payload['iss'] = $this->iss;
 
-        if ($permissoes)
+        if ($permissions)
             $payload['permissions'] = $permissions;
 
         $payload["iat"] = strtotime("now");

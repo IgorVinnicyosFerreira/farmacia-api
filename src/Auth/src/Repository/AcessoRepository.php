@@ -3,6 +3,7 @@
 namespace Auth\Repository;
 
 use Auth\Model\Entity\Acesso;
+use Auth\Model\Entity\Perfil;
 use Auth\Model\Entity\PerfilPermissao;
 use Auth\Model\Entity\Permissao;
 use Cadastro\Model\Entity\Usuario;
@@ -30,15 +31,19 @@ class AcessoRepository extends EntityRepository
 
     public function getPermissionsByAccess(Acesso $acesso): array
     {
+
         $query = $this->_em->createQueryBuilder();
         $query->select(['p.rota'])->from(PerfilPermissao::class, 'per_perm')
             ->leftJoin(Permissao::class, 'p', 'WITH', 'p.id = per_perm.permissao')
             ->where('per_perm.perfil = :idperfil')
             ->setParameter('idperfil', $acesso->getPerfil()->getId());
 
-        $result = $query->getQuery()->getArrayResult();
+        //retornar um array somente com os nomes da rota ['rota1', 'rota2']
+        $permissoes = array_map(function ($permissao) {
+            return $permissao['rota'];
+        }, $query->getQuery()->getResult());
 
-        return $result;
+        return $permissoes;
     }
 
 

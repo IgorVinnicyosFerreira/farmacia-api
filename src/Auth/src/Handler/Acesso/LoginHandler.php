@@ -32,11 +32,9 @@ class LoginHandler implements RequestHandlerInterface
 
             $permissoes = $this->acessoRepository->getPermissionsByAccess($acesso);
 
-            // $token = $this->jwtUtil->createToken(["usuario" => $acesso->getUsuario()]);
+            $token = $this->jwtUtil->createToken(["usuario" => $acesso->getUsuario()], $permissoes);
 
-            //return $this->jwtUtil->tokenResponse($token);
-
-            return new JsonResponse([$permissoes]);
+            return $this->jwtUtil->tokenResponse($token);
         } catch (Exception $error) {
             return new JsonResponse(["error" => $error->getMessage()], 400);
         }
