@@ -13,6 +13,10 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Zend\Mvc\I18n\ConfigProvider::class,
+    \Zend\I18n\ConfigProvider::class,
+    \Zend\InputFilter\ConfigProvider::class,
+    \Zend\Filter\ConfigProvider::class,
     \Auth\ConfigProvider::class,
     \Cadastro\ConfigProvider::class,
     \Zend\HttpHandlerRunner\ConfigProvider::class,

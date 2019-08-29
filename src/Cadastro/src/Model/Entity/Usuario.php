@@ -15,7 +15,6 @@ use Zend\Validator\StringLength;
 /**
  * @ORM\Entity(repositoryClass="Cadastro\Repository\UsuarioRepository")
  * @ORM\Table(name="usuario")
- * @ORM\HasLifecycleCallbacks()
  */
 class Usuario implements JsonSerializable
 {
@@ -81,43 +80,6 @@ class Usuario implements JsonSerializable
     public function __construct()
     {
         $this->vendas = new ArrayCollection();
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function validate()
-    {
-        if (!$this->nome)
-            throw new Exception("Nome é uma informação obrigatória");
-
-        if (!$this->sobrenome)
-            throw new Exception("Sobrenome é uma informação obrigatória");
-
-        if (!$this->dataNascimento)
-            throw new Exception("Data nascimento é uma informação obrigatória");
-
-        if (!$this->email)
-            throw new Exception("Email é uma informação obrigatória");
-
-        if (!(new EmailAddress())->isValid($this->email))
-            throw new Exception("Email inválido");
-
-        if (!(new NotEmpty())->isValid($this->nome))
-            throw new Exception("Nome não pode ser vazio");
-
-        if (!(new NotEmpty())->isValid($this->sobrenome))
-            throw new Exception("Sobrenome não pode ser vazio");
-
-        if (!(new NotEmpty())->isValid($this->email))
-            throw new Exception("Sobrenome não pode ser vazio");
-
-        if (!(new StringLength(["max" => 50]))->isValid($this->nome))
-            throw new Exception("Nome excede o limite de caracteres");
-
-        if (!(new StringLength(["max" => 50]))->isValid($this->sobrenome))
-            throw new Exception("Sobrenome excede o limite de caracteres");
     }
 
     /**

@@ -13,7 +13,6 @@ use Zend\Validator\StringLength;
 /**
  * @ORM\Entity(repositoryClass="Cadastro\Repository\ClienteRepository")
  * @ORM\Table(name="cliente")
- * @ORM\HasLifecycleCallbacks()
  */
 class Cliente implements JsonSerializable
 {
@@ -64,33 +63,6 @@ class Cliente implements JsonSerializable
             'dataNascimento' => $this->getDataNascimento(),
             'compras'        => $this->getCompras()
         ];
-    }
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function validate()
-    {
-        if (!$this->nome)
-            throw new Exception("Nome é uma informação obrigatória");
-
-        if (!(new NotEmpty())->isValid($this->nome))
-            throw new Exception("Nome não pode ser vazio");
-
-        if (!(new StringLength(["max" => 50]))->isValid($this->nome))
-            throw new Exception("Nome excede o limite de caracteres");
-
-        if (!$this->sobrenome)
-            throw new Exception("Sobrenome é uma informação obrigatória");
-
-        if (!(new NotEmpty())->isValid($this->sobrenome))
-            throw new Exception("Sobrenome não pode ser vazio");
-
-        if (!(new StringLength(["max" => 50]))->isValid($this->sobrenome))
-            throw new Exception("Sobrenome excede o limite de caracteres");
-
-        if (!$this->dataNascimento)
-            throw new Exception("Data de nascimento é uma informação obrigatória");
     }
 
     /**

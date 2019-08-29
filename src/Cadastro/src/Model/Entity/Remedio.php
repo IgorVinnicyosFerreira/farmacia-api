@@ -51,38 +51,6 @@ class Remedio implements JsonSerializable
         ];
     }
 
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function validate()
-    {
-        if (!$this->nome)
-            throw new Exception("Nome é uma informação obrigatoria");
-
-        if (!$this->descricao)
-            throw new Exception("Descrição é uma informação obrigatoria");
-
-        if (!$this->preco)
-            throw new Exception("Preço é uma informação obrigatoria");
-
-        if (!is_float($preco))
-            throw new Exception("Preço está em um formato inválido");
-
-        if (!(new NotEmpty())->isValid($this->nome))
-            throw new Exception("Nome não pode ser vazio");
-
-        if (!(new NotEmpty())->isValid($this->descricao))
-            throw new Exception("Nome não pode ser vazio");
-
-        if (!(new StringLength(['max' => 100]))->isValid($this->nome))
-            throw new Exception("Nome excede os limites de caracteres");
-
-        if (!(new StringLength(['max' => 500]))->isValid($this->descricao))
-            throw new Exception("Nome excede os limites de caracteres");
-    }
-
     /**
      * Get the value of id
      *

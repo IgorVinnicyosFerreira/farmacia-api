@@ -21,9 +21,10 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
-            'doctrine'     => $this->getDoctrineConfig()
+            'dependencies'  => $this->getDependencies(),
+            'templates'     => $this->getTemplates(),
+            'doctrine'      => $this->getDoctrineConfig(),
+            'translator'    =>  $this->getTranslator()
         ];
     }
 
@@ -62,6 +63,22 @@ class ConfigProvider
                     'paths' => __DIR__ . '/Model/Entity',
                 ],
             ],
+        ];
+    }
+
+    public function getTranslator()
+    {
+
+        return [
+            'locale' => 'pt_BR',
+            'translation_file_patterns' => [
+                [
+                    'type'      =>  'phparray',
+                    'base_dir'  =>  __DIR__ . '\Language',
+                    'pattern'   =>  '%s.php'
+                ]
+
+            ]
         ];
     }
 }

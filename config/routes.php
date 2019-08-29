@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use Auth\teste\testeHandler;
-
+use Cadastro\Model\Validator\ClienteValidator;
+use Cadastro\Model\Validator\RemedioValidator;
+use Cadastro\Model\Validator\UsuarioValidator;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
 use Zend\Expressive\MiddlewareFactory;
@@ -36,19 +38,43 @@ use Zend\Expressive\MiddlewareFactory;
  */
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     //$app->get('/', testeHandler::class, 'home');
-    $app->post('/cliente/inserir', Cadastro\Handler\Cliente\InserirHandler::class, 'cliente.inserir');
-    $app->put('/cliente/editar', Cadastro\Handler\Cliente\EditarHandler::class, 'cliente.editar');
+    $app->post('/cliente/inserir', [
+        ClienteValidator::class,
+        Cadastro\Handler\Cliente\InserirHandler::class
+    ], 'cliente.inserir');
+
+    $app->put('/cliente/editar', [
+        ClienteValidator::class,
+        Cadastro\Handler\Cliente\EditarHandler::class
+    ], 'cliente.editar');
+
     $app->get('/cliente', Cadastro\Handler\Cliente\ListarHandler::class, 'cliente');
     $app->delete('/cliente/excluir', Cadastro\Handler\Cliente\DeletarHandler::class, 'cliente.deletar');
 
-    $app->post('/usuario/inserir', Cadastro\Handler\Usuario\InserirHandler::class, 'usuario.inserir');
-    $app->put('/usuario/editar', Cadastro\Handler\Usuario\EditarHandler::class, 'usuario.editar');
+    $app->post('/usuario/inserir', [
+        UsuarioValidator::class,
+        Cadastro\Handler\Usuario\InserirHandler::class
+    ], 'usuario.inserir');
+
+    $app->put('/usuario/editar', [
+        UsuarioValidator::class,
+        Cadastro\Handler\Usuario\InserirHandler::class
+    ], 'usuario.editar');
+
     $app->get('/usuario', Cadastro\Handler\Usuario\ListarHandler::class, 'usuario');
     $app->delete('/usuario/excluir', Cadastro\Handler\Usuario\DeletarHandler::class, 'usuario.deletar');
 
 
-    $app->post('/remedio/inserir', Cadastro\Handler\Remedio\InseriHandler::class, 'remedio.inserir');
-    $app->put('/remedio/editar', Cadastro\Handler\Remedio\AtualizarHandler::class, 'remedio.editar');
+    $app->post('/remedio/inserir', [
+        RemedioValidator::class,
+        Cadastro\Handler\Remedio\InseriHandler::class
+    ], 'remedio.inserir');
+
+    $app->put('/remedio/editar', [
+        RemedioValidator::class,
+        Cadastro\Handler\Remedio\AtualizarHandler::class
+    ], 'remedio.editar');
+
     $app->delete('/remedio/excluir', Cadastro\Handler\Remedio\DeletarHandler::class, 'remedio.deletar');
     $app->get('/remedio', Cadastro\Handler\Remedio\ListarHandler::class, 'remedio');
 
