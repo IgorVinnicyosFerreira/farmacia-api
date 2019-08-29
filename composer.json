@@ -39,6 +39,8 @@
   "require": {
     "php": "^7.1",
     "dasprid/container-interop-doctrine": "^1.1",
+    "doctrine/migrations": "^2.1",
+    "doctrine/dbal": "^2.9",
     "firebase/php-jwt": "^5.0",
     "zendframework/zend-component-installer": "^2.1.1",
     "zendframework/zend-config-aggregator": "^1.0",
@@ -93,6 +95,10 @@
     "module-delete": "composer expressive module:deregister",
     "validate-schema": "vendor\\bin\\doctrine orm:validate-schema",
     "create-schema": "vendor\\bin\\doctrine orm:schema-tool:create",
-    "generate-repositories": "vendor\\bin\\doctrine orm:generate-repositories"
+    "update-schema": "vendor\\bin\\doctrine orm:schema-tool:update",
+    "generate-repositories": "vendor\\bin\\doctrine orm:generate-repositories",
+    "migration": "vendor\\bin\\doctrine-migrations",
+    "create-migration": "vendor\\bin\\doctrine-migrations diff",
+    "migrate": "vendor\\bin\\doctrine-migrations migrate"
   }
 }

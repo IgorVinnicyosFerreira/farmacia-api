@@ -35,11 +35,22 @@ class Acesso implements JsonSerializable
     private $senha;
 
     /**
-     * @ORM\OneToOne(targetEntity="Cadastro\Model\Entity\Usuario")
-     * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="Cadastro\Model\Entity\Usuario", inversedBy="acesso")
+     * @ORM\JoinColumn(
+     * name="id_usuario", referencedColumnName="id", nullable=false, 
+     * )
      * @var Usuario
      */
     private $usuario;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Perfil")
+     * @ORM\JoinColumn(
+     * name="id_perfil", referencedColumnName="id", nullable=false, 
+     * )
+     * @var Perfil
+     */
+    private $perfil;
 
     public function jsonSerialize()
     {
@@ -143,6 +154,30 @@ class Acesso implements JsonSerializable
     public function setUsuario(Usuario $usuario)
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get )
+     *
+     * @return  Perfil
+     */
+    public function getPerfil()
+    {
+        return $this->perfil;
+    }
+
+    /**
+     * Set )
+     *
+     * @param  Perfil  $perfil  )
+     *
+     * @return  self
+     */
+    public function setPerfil(Perfil $perfil)
+    {
+        $this->perfil = $perfil;
 
         return $this;
     }

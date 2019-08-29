@@ -6,8 +6,8 @@ return [
             "key" => "qwertyuiopasdfghjklzxcvbnm123456",
             "alg" => "HS256",
             "iss" => "https://www.farmacia.com",
-            "expirationTime" => 1
+            "expirationTime" => 30 // em minutos
         ],
-        "ignoredRoutes" => ["login"]
+        "ignoredRoutes" => ["login"],
     ]
 ];

@@ -11,15 +11,24 @@ return [
             'orm_default' => [
                 'driverClass' => Driver::class,
                 'params' => [
-                    'host'            => 'localhost',
+                    'host'            => 'db4free.net',
                     'port'            => '3306',
-                    'user'            => 'root',
-                    'password'        => '',
-                    'dbname'          => 'farmacia',
+                    'user'            => 'development',
+                    'password'        => 'farmacia4590',
+                    'dbname'          => 'farmacia_api',
                     'driverOptions'   => [
                         \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES UTF8'
                     ]
                 ],
+            ],
+        ],
+        'migrations_configuration' => [
+            'orm_default' => [
+                'directory' => 'data/Migrations',
+                'name'      => 'Doctrine Database Migrations',
+                'namespace' => 'Migrations',
+                'table'     => 'migrations',
+                'column'
             ],
         ],
     ],

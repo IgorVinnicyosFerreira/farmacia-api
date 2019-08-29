@@ -38,13 +38,16 @@ class JWT
             $this->iss = $jwtConfig['iss'];
     }
 
-    public function createToken($payload): string
+    public function createToken($payload, array $permissions = null): string
     {
         if ($this->expirationTime)
             $payload['exp'] = strtotime("now +{$this->expirationTime} minutes");
 
         if ($this->iss)
             $payload['iss'] = $this->iss;
+
+        if ($permissoes)
+            $payload['permissions'] = $permissions;
 
         $payload["iat"] = strtotime("now");
 

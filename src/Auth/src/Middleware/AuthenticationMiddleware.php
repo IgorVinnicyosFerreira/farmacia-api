@@ -28,7 +28,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
-            $routeName = $this->urlHelper->getRouteResult()->getMatchedRoute()->getName();
+            $routeName = $this->urlHelper->getRouteResult()->getMatchedRouteName();
 
             if (in_array($routeName, $this->authConfig['ignoredRoutes']))
                 return $handler->handle($request);
