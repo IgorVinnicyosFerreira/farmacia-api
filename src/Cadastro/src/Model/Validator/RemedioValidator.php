@@ -48,14 +48,16 @@ class RemedioValidator implements MiddlewareInterface
                 "name"          =>  "preco",
                 "required"      =>  true,
                 "validators"    =>  [
+                    new NotEmpty([NotEmpty::INTEGER | NotEmpty::FLOAT, NotEmpty::ZERO]),
                     (new Callback(function ($value) {
+
                         if (!is_float($value))
                             return false;
+
+                        return true;
                     }))->setMessage("Formato inválido", Callback::INVALID_VALUE)
                 ],
-                "filters"       =>  [
-                    new ToFloat()
-                ]
+
             ],
 
         ]);
