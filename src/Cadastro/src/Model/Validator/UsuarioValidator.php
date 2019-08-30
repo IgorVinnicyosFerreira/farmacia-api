@@ -51,16 +51,16 @@ class UsuarioValidator implements MiddlewareInterface
             'dataNascimento' => [
                 'name' => 'dataNascimento',
                 'required' => true,
-                'validator' => [
+                'validators' => [
                     new Date(),
                 ]
             ],
             'email' => [
                 'name' => 'email',
                 'required'  => true,
-                'validator' => [
+                'validators' => [
                     new NotEmpty(),
-                    new EmailAddress(),
+                    new EmailAddress(['']),
                 ]
             ],
         ]);
@@ -68,7 +68,7 @@ class UsuarioValidator implements MiddlewareInterface
         $inputFilter->setData($request->getParsedBody());
 
         if (!$inputFilter->isValid())
-            return new JsonResponse(['campos_invalidos' => $inputFilter->getMessages()]);
+            return new JsonResponse(['campos_invalidos' => $inputFilter->getMessages()], 400);
 
         return $handler->handle($request);
     }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Auth\Model\Validator\AcessoValidator;
 use Auth\teste\testeHandler;
 use Cadastro\Model\Validator\ClienteValidator;
 use Cadastro\Model\Validator\RemedioValidator;
@@ -82,5 +83,8 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->get('/compra', App\Handler\Compra\ListarHandler::class, 'compra');
     $app->get('/compra/compras-por-cliente', App\Handler\Compra\ComprasPorClienteHandler::class, 'compras.por.cliente');
 
-    $app->post("/login", Auth\Handler\Acesso\LoginHandler::class, 'login');
+    $app->post("/login", [
+        AcessoValidator::class,
+        Auth\Handler\Acesso\LoginHandler::class
+    ], 'login');
 };

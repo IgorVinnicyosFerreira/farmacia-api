@@ -4,6 +4,7 @@ namespace Cadastro\Repository;
 
 use Cadastro\Model\Entity\Usuario;
 use Doctrine\ORM\EntityRepository;
+use Auth\Model\Entity\Perfil;
 use Exception;
 
 class UsuarioRepository extends EntityRepository
@@ -20,6 +21,10 @@ class UsuarioRepository extends EntityRepository
             $this->_em->flush();
             return;
         }
+
+        $perfilRepository = $this->_em->getRepository(Perfil::class);
+
+        $usuario->getAcesso()->setPerfil($perfilRepository->find(1));
 
         $this->_em->persist($usuario);
         $this->_em->flush();

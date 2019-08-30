@@ -63,7 +63,7 @@ class RemedioValidator implements MiddlewareInterface
         $inputFilter->setData($request->getParsedBody());
 
         if (!$inputFilter->isValid())
-            return new JsonResponse(["campos_invalidos" => $inputFilter->getMessages()]);
+            return new JsonResponse(["campos_invalidos" => $inputFilter->getMessages()], 400);
 
         return $handler->handle($request);
     }
