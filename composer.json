@@ -42,6 +42,7 @@
     "doctrine/dbal": "^2.9",
     "doctrine/migrations": "^2.1",
     "firebase/php-jwt": "^5.0",
+    "igor-vinnicyos-ferreira/expressive-jwt-auth": "^1.0",
     "zendframework/zend-component-installer": "^2.1.1",
     "zendframework/zend-config-aggregator": "^1.0",
     "zendframework/zend-crypt": "^3.3",

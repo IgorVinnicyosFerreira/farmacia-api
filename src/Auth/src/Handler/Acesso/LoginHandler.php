@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Auth\Handler\Acesso;
 
-use Auth\JWT\JWT;
+use ExpressiveJWTAuth\JWT\JWT;
 use Auth\Repository\AcessoRepository;
 use Exception;
 use Psr\Http\Message\ResponseInterface;

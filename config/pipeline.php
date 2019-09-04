@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use ExpressiveJWTAuth\Middleware\AuthenticationMiddleware;
+use ExpressiveJWTAuth\Middleware\AuthorizationMiddleware;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Application;
 use Zend\Expressive\Handler\NotFoundHandler;
@@ -15,8 +17,7 @@ use Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware;
 use Zend\Expressive\Router\Middleware\RouteMiddleware;
 use Zend\Stratigility\Middleware\ErrorHandler;
 use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
-use Auth\Middleware\AuthenticationMiddleware;
-use Auth\Middleware\AuthorizationMiddleware;
+
 
 /**
  * Setup middleware pipeline:
@@ -70,6 +71,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // - etc.
     $app->pipe(AuthenticationMiddleware::class);
     $app->pipe(AuthorizationMiddleware::class);
+
     // Register the dispatch middleware in the middleware pipeline
     $app->pipe(DispatchMiddleware::class);
 
