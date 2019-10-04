@@ -5,10 +5,8 @@ namespace Cadastro\Model\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use JsonSerializable;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\StringLength;
+use Util\EntityHydratorTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Cadastro\Repository\ClienteRepository")
@@ -16,6 +14,9 @@ use Zend\Validator\StringLength;
  */
 class Cliente implements JsonSerializable
 {
+
+    use EntityHydratorTrait;
+    
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")

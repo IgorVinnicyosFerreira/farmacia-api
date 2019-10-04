@@ -26,7 +26,7 @@ class EditarHandler implements RequestHandlerInterface
         $body = $request->getParsedBody();
 
         $cliente = new Cliente();
-
+        
         try {
 
             $cliente->setId($body['id'])->setNome($body['nome'])

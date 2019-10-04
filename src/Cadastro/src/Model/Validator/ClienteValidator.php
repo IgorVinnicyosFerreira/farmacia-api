@@ -26,7 +26,7 @@ class ClienteValidator implements MiddlewareInterface
                 "validators" =>  [
                     new NotEmpty(),
                     new StringLength(["min" => 2, "max" => 50])
-                ]
+                ],
             ],
             "sobrenome"  =>  [
                 "name"       =>  "sobrenome",
