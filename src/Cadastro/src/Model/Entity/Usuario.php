@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use JsonSerializable;
+use Util\EntityHydratorTrait;
 use Zend\Validator\EmailAddress;
 use Zend\Validator\NotEmpty;
 use Zend\Validator\StringLength;
@@ -18,6 +19,9 @@ use Zend\Validator\StringLength;
  */
 class Usuario implements JsonSerializable
 {
+
+    use EntityHydratorTrait;
+    
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")

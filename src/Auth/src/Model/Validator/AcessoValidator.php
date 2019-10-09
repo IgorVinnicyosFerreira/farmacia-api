@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
+use Zend\Filter\StringToUpper;
 use Zend\Filter\StringTrim;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
@@ -22,7 +23,7 @@ class AcessoValidator implements MiddlewareInterface
         $inputFilter = new InputFilter();
 
         $login = new Input('login');
-        $login->getFilterChain()->attach(new StringTrim());
+        $login->getFilterChain()->attach(new StringTrim())->attach( new StringToUpper());
         $login->getValidatorChain()->attach(new NotEmpty());
         $inputFilter->add($login);
 
@@ -37,6 +38,7 @@ class AcessoValidator implements MiddlewareInterface
         if (!$inputFilter->isValid())
             return new JsonResponse(["campos_invalidos" => $inputFilter->getMessages()], 400);
 
+        $request = $request->withParsedBody($inputFilter->getValues());
         return $handler->handle($request);
     }
 }

@@ -58,6 +58,8 @@ class ClienteValidator implements MiddlewareInterface
         if (!$inputFilter->isValid())
             return new JsonResponse(["campos_invalidos" => $inputFilter->getMessages()], 400);
 
+        $request = $request->withParsedBody($inputFilter->getValues());
+        
         return $handler->handle($request);
     }
 }

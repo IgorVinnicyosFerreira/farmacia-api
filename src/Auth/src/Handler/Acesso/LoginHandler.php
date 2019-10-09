@@ -6,6 +6,7 @@ namespace Auth\Handler\Acesso;
 
 use ExpressiveJWTAuth\JWT\JWT;
 use Auth\Repository\AcessoRepository;
+use Cadastro\Model\Entity\Usuario;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
